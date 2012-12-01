@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 module SimpleStore
+  class RecordNotFound < StandardError; end
+
   class Memory
     attr_reader :bucket
 
@@ -15,7 +17,11 @@ module SimpleStore
     end
 
     def get(key)
-      data[bucket].fetch(:key)
+      data[bucket].fetch(key) { raise SimpleStore::RecordNotFound, "Record not found with key #{key}"}
+    end
+
+    def to_s
+      data.inspect
     end
 
     private
@@ -28,7 +34,7 @@ module SimpleStore
     end
 
     def data
-      $_simple_store_data ||= {}
+      @data ||= {}
     end
   end
 end
@@ -39,5 +45,19 @@ describe SimpleStore::Memory do
     person_attributes = { :id => 1, :first_name => 'Kris', :last_name => 'Leech' }
     store.put person_attributes
     store.get(1).should == person_attributes
+  end
+
+  it 'raise RecordNotFound for missing records' do
+    store = SimpleStore::Memory.new(:people)
+    expect { store.get(1) }.to raise_error SimpleStore::RecordNotFound
+  end
+
+  it 'does not persist across instances' do
+    store = SimpleStore::Memory.new(:people)
+    person_attributes = { :id => 1, :first_name => 'Kris', :last_name => 'Leech' }
+    store.put person_attributes
+
+    new_store = SimpleStore::Memory.new(:people)
+    expect { new_store.get(1) }.to raise_error SimpleStore::RecordNotFound
   end
 end
