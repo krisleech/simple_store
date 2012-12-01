@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["kris.leech@gmail.com"]
   gem.description   = %q{Store buckets of keyed hashes in memory or to disk, useful for testing without a real database}
   gem.summary       = %q{Store buckets of keyed hashes in memory or to disk}
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/krisleech/simple_store"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
