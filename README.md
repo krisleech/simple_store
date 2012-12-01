@@ -1,6 +1,6 @@
 # SimpleStore
 
-TODO: Write a gem description
+Store hashes in memory or to disk, useful for testing without a real database.
 
 ## Installation
 
@@ -8,17 +8,28 @@ Add this line to your application's Gemfile:
 
     gem 'simple_store'
 
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install simple_store
-
 ## Usage
 
-TODO: Write usage instructions here
+### Memory Store
+
+    person = { :id => 1, :first_name => 'Kris', :last_name => 'Leech' }
+    store = SimpleStore::Memory.new(:people)
+    store.put(person)
+
+    # some moments later...
+
+    store.get(1) # => { ... }
+
+### Disk Store
+
+    person = { :id => 1, :first_name => 'Kris', :last_name => 'Leech' }
+    store = SimpleStore::Disk.new(:people)
+    store.put(person)
+
+    # some days later...
+
+    store = SimpleStore::Disk.new(:people)
+    store.get(1) # => { ... }
 
 ## Contributing
 
