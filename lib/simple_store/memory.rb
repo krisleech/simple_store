@@ -1,6 +1,4 @@
 module SimpleStore
-  class RecordNotFound < StandardError; end
-
   class Memory
     attr_reader :bucket
 
@@ -16,6 +14,10 @@ module SimpleStore
 
     def get(key)
       data[bucket].fetch(key) { raise SimpleStore::RecordNotFound, "Record not found with key #{key}"}
+    end
+
+    def destroy_all
+      data[bucket] = {}
     end
 
     def to_s
