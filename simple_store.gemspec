@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = SimpleStore::VERSION
   gem.authors       = ["Kris Leech"]
   gem.email         = ["kris.leech@gmail.com"]
-  gem.description   = %q{A memory and file backed data store for attributes}
-  gem.summary       = %q{}
+  gem.description   = %q{Store buckets of keyed hashes in memory or to disk, useful for testing without a real database}
+  gem.summary       = %q{Store buckets of keyed hashes in memory or to disk}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($/)

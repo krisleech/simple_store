@@ -1,6 +1,6 @@
 # SimpleStore
 
-Store hashes in memory or to disk, useful for testing without a real database.
+Store buckets of keyed hashes in memory or to disk, useful for testing without a real database.
 
 ## Installation
 
