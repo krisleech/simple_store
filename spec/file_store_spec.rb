@@ -35,4 +35,10 @@ describe SimpleStore::Disk do
     expect { store.get(1) }.to raise_error SimpleStore::RecordNotFound
     expect { store.get(2) }.to raise_error SimpleStore::RecordNotFound
   end
+
+  it '#put stores nested hashes' do
+    record = { :id => 1, :name => 'Foobar', :chapters => [ 1,2,3 ], :sections => [{ :name => '1', :color => :red }, { :name => '2', :color => :green } ] }
+    store.put record
+    store.get(1).should == record
+  end
 end
