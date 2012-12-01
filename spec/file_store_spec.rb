@@ -7,17 +7,17 @@ describe SimpleStore::Disk do
     store.destroy_all
   end
 
-  it 'stores hashes using given key' do
+  it '#put stores keyed hashes' do
     person_attributes = { :id => 1, :first_name => 'Kris', :last_name => 'Leech' }
     store.put person_attributes
     store.get(1).should == person_attributes
   end
 
-  it 'raise RecordNotFound for missing records' do
+  it '#get raise RecordNotFound for missing keys' do
     expect { store.get(1) }.to raise_error SimpleStore::RecordNotFound
   end
 
-  it 'does persist across instances' do
+  it '#put persists data across store instances' do
     person_attributes = { :id => 1, :first_name => 'Kris', :last_name => 'Leech' }
     store.put person_attributes
 
