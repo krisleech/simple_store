@@ -6,73 +6,81 @@ Store buckets of keyed hashes in memory or to disk, useful for testing without a
 
 Add this line to your application's Gemfile:
 
-    gem 'simple_store'
+```ruby
+gem 'simple_store'
+```
 
 ## Usage
 
 ### Memory Store
 
-    person = { :id => 1, :first_name => 'Kris', :last_name => 'Leech' }
-    store = SimpleStore::Memory.new(:people)
-    store.put(person)
+```ruby
+person = { :id => 1, :first_name => 'Kris', :last_name => 'Leech' }
+store = SimpleStore::Memory.new(:people)
+store.put(person)
 
-    # some moments later...
+# some seconds later...
 
-    store.get(1) # => { ... }
+store.get(1) # => { ... }
+```
 
 ### Disk Store
 
-    person = { :id => 1, :first_name => 'Kris', :last_name => 'Leech' }
-    store = SimpleStore::Disk.new(:people)
-    store.put(person)
+```ruby
+person = { :id => 1, :first_name => 'Kris', :last_name => 'Leech' }
+store = SimpleStore::Disk.new(:people)
+store.put(person)
 
-    # some days later...
+# some days later...
 
-    store = SimpleStore::Disk.new(:people)
-    store.get(1) # => { ... }
+store = SimpleStore::Disk.new(:people)
+store.get(1) # => { ... }
+```
 
 ### Example
 
-    require 'virtus'
-    require 'guid'
+```ruby
+require 'virtus'
+require 'guid'
 
-    class Person
-      include Virtus
+class Person
+  include Virtus
 
-      attribute :id, String, :default => Guid.new.to_s
-      attribute :first_name
-      attribute :last_name
+  attribute :id, String, :default => Guid.new.to_s
+  attribute :first_name
+  attribute :last_name
 
-      def ==(person)
-        id == person.id
-      end
-    end
+  def ==(person)
+    id == person.id
+  end
+end
 
-    class PeopleTable < SimpleStore::Disk
-      def initialize
-        super(:people)
-      end
+class PeopleTable < SimpleStore::Disk
+  def initialize
+    super(:people)
+  end
 
-      def put(person)
-        super(person.attributes)
-      end
+  def put(person)
+    super(person.attributes)
+  end
 
-      def get(id)
-        Person.new(super(id))
-      end
-    end
+  def get(id)
+    Person.new(super(id))
+  end
+end
 
-    describe 'storing a domain object to disk' do
-      it 'domain objects can be stored and retrieved from the store' do
-        person = Person.new
-        person.first_name = 'Kris'
-        person.last_name = 'Leech'
+describe 'storing a domain object to disk' do
+  it 'domain objects can be stored and retrieved from the store' do
+    person = Person.new
+    person.first_name = 'Kris'
+    person.last_name = 'Leech'
 
-        table = PeopleTable.new
-        table.put person
-        table.get(person.id).should == person
-      end
-    end
+    table = PeopleTable.new
+    table.put person
+    table.get(person.id).should == person
+  end
+end
+```
 
 ## Contributing
 
